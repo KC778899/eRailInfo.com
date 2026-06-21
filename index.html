@@ -1,304 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta charset="UTF-8">
+<title>eRailInfo</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-    <title>eRailInfo</title>
+<style>
 
-    <link rel="stylesheet" href="style.css">
+:root{
+    --paper:#f5f1e8;
+    --paper-dark:#ebe5d8;
+    --border:#d7cfbf;
+    --text:#2c2c2c;
+    --muted:#777;
+}
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Serif+4:wght@400;500;600&display=swap" rel="stylesheet">
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
+body{
+    background:var(--paper);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+.container{
+    width:min(1100px,90%);
+    margin:auto;
+}
+
+/* HEADER */
+
+header{
+    padding:40px 0 20px;
+    border-bottom:1px solid var(--border);
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:54px;
+    font-weight:600;
+    text-decoration:none;
+    color:#222;
+}
+
+.tagline{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* NAVIGATION */
+
+.nav-menu{
+    display:flex;
+    gap:50px;
+    list-style:none;
+}
+
+.nav-menu li{
+    position:relative;
+}
+
+.nav-menu a{
+    text-decoration:none;
+    color:#222;
+    font-size:13px;
+    letter-spacing:1px;
+}
+
+.dropdown-menu{
+    display:none;
+    position:absolute;
+    top:25px;
+    left:0;
+    min-width:180px;
+    background:#faf7ef;
+    border:1px solid var(--border);
+    padding:8px 0;
+    list-style:none;
+    z-index:1000;
+}
+
+.dropdown-menu li a{
+    display:block;
+    padding:10px 15px;
+}
+
+.dropdown-menu li a:hover{
+    background:var(--paper-dark);
+}
+
+.dropdown:hover .dropdown-menu{
+    display:block;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:70px 0;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:78px;
+    font-weight:600;
+}
+
+.hero p{
+    color:#666;
+    margin-top:10px;
+    margin-bottom:35px;
+}
+
+/* SEARCH */
+
+.search-box{
+    display:flex;
+    max-width:600px;
+    margin:auto;
+}
+
+.search-box input{
+    flex:1;
+    padding:14px;
+    border:1px solid var(--border);
+    background:white;
+}
+
+.search-box button{
+    width:120px;
+    border:1px solid var(--border);
+    background:white;
+    cursor:pointer;
+}
+
+.search-box button:hover{
+    background:var(--paper-dark);
+}
+
+.example{
+    margin-top:10px;
+    font-size:12px;
+    color:#888;
+}
+
+/* LETTER NAVIGATION */
+
+.letters{
+    margin-top:50px;
+}
+
+.letters h3{
+    font-weight:400;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.letter-list{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+}
+
+.letter{
+    width:34px;
+    height:34px;
+    border:1px solid var(--border);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    color:#333;
+    font-size:13px;
+}
+
+.letter:hover{
+    background:var(--paper-dark);
+}
+
+/* CONTENT */
+
+.content{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    margin-top:60px;
+}
+
+.section-title{
+    border-bottom:1px solid var(--border);
+    padding-bottom:10px;
+    margin-bottom:15px;
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+.train-row{
+    display:flex;
+    gap:15px;
+    padding:15px 0;
+    border-bottom:1px solid #e5dfd2;
+}
+
+.train-number{
+    font-weight:700;
+    font-size:36px;
+    font-family:'Cormorant Garamond',serif;
+}
+
+.train-details{
+    font-size:14px;
+    line-height:1.5;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:80px;
+    padding:30px 0;
+    border-top:1px solid var(--border);
+    text-align:center;
+    color:#888;
+    font-size:13px;
+}
+
+@media(max-width:768px){
+
+.topbar{
+    flex-direction:column;
+    gap:20px;
+}
+
+.nav-menu{
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.hero h1{
+    font-size:52px;
+}
+
+.content{
+    grid-template-columns:1fr;
+}
+
+.search-box{
+    flex-direction:column;
+}
+
+.search-box button{
+    width:100%;
+    height:50px;
+}
+
+}
+
+</style>
 </head>
-
 <body>
 
 <header>
+<div class="container">
 
-    <div class="logo">
+<div class="topbar">
 
-        <h1>eRailInfo</h1>
+<div>
+<a href="#" class="logo">eRailInfo</a>
+<div class="tagline">Search</div>
+</div>
 
-        <p>Search</p>
+<ul class="nav-menu">
 
-    </div>
+<li class="dropdown">
+<a href="#">TRAINS ▾</a>
 
-    <nav>
+<ul class="dropdown-menu">
+<li><a href="#">A Trains</a></li>
+<li><a href="#">B Trains</a></li>
+<li><a href="#">C Trains</a></li>
+<li><a href="#">D Trains</a></li>
+<li><a href="#">E Trains</a></li>
+<li><a href="#">F Trains</a></li>
+<li><a href="#">G Trains</a></li>
+<li><a href="#">H Trains</a></li>
+<li><a href="#">I Trains</a></li>
+<li><a href="#">J Trains</a></li>
+</ul>
 
-    <div class="dropdown">
+</li>
 
-        <button class="dropbtn">TRAINS</button>
+<li class="dropdown">
+<a href="#">STATIONS ▾</a>
 
-        <div class="dropdown-content">
+<ul class="dropdown-menu">
+<li><a href="#">A Stations</a></li>
+<li><a href="#">B Stations</a></li>
+<li><a href="#">C Stations</a></li>
+<li><a href="#">D Stations</a></li>
+<li><a href="#">E Stations</a></li>
+<li><a href="#">F Stations</a></li>
+<li><a href="#">G Stations</a></li>
+<li><a href="#">H Stations</a></li>
+<li><a href="#">I Stations</a></li>
+<li><a href="#">J Stations</a></li>
+</ul>
 
-            <a href="#">A</a>
-            <a href="#">B</a>
-            <a href="#">C</a>
-            <a href="#">D</a>
-            <a href="#">E</a>
-            <a href="#">F</a>
-            <a href="#">G</a>
-            <a href="#">H</a>
-            <a href="#">I</a>
-            <a href="#">J</a>
+</li>
 
-        </div>
+<li>
+<a href="#">UPDATES ▾</a>
+</li>
 
-    </div>
+</ul>
 
-    <div class="dropdown">
+</div>
 
-        <button class="dropbtn">STATIONS</button>
-
-        <div class="dropdown-content">
-
-            <a href="#">A</a>
-            <a href="#">B</a>
-            <a href="#">C</a>
-            <a href="#">D</a>
-            <a href="#">E</a>
-            <a href="#">F</a>
-            <a href="#">G</a>
-            <a href="#">H</a>
-            <a href="#">I</a>
-            <a href="#">J</a>
-
-        </div>
-
-    </div>
-
-    <div class="dropdown">
-
-        <button class="dropbtn">UPDATES</button>
-
-        <div class="dropdown-content">
-
-            <a href="#">Latest Updates</a>
-
-        </div>
-
-    </div>
-
-</nav>
-
+</div>
 </header>
-
-<hr>
 
 <section class="hero">
 
-    <h2>Search</h2>
+<h1>Search</h1>
 
-    <p class="subtitle">
+<p>Routes. Schedules. Stations.</p>
 
-        Routes. Schedules. Stations.
+<div class="search-box">
+<input type="text" placeholder="Search train number or name">
+<button>Search</button>
+</div>
 
-    </p>
+<div class="example">
+Example: 12951 Mumbai Rajdhani
+</div>
 
-    <div class="search-box">
+<div class="letters">
 
-        <input
-            type="text"
-            placeholder="Search train number or name">
+<h3>Browse Trains</h3>
 
-        <button>Search</button>
+<div class="letter-list">
+<a class="letter">A</a>
+<a class="letter">B</a>
+<a class="letter">C</a>
+<a class="letter">D</a>
+<a class="letter">E</a>
+<a class="letter">F</a>
+<a class="letter">G</a>
+<a class="letter">H</a>
+<a class="letter">I</a>
+<a class="letter">J</a>
+</div>
 
-    </div>
-
-    <p class="example">
-
-        Example: 12951 Mumbai Rajdhani
-
-    </p>
-
-</section>
-
-<section class="directory">
-
-    <h3>Browse Trains</h3>
-
-    <div class="alphabet-grid">
-
-        <a href="#">A</a>
-        <a href="#">B</a>
-        <a href="#">C</a>
-        <a href="#">D</a>
-        <a href="#">E</a>
-        <a href="#">F</a>
-        <a href="#">G</a>
-        <a href="#">H</a>
-        <a href="#">I</a>
-        
-    </div>
+</div>
 
 </section>
 
-<section class="content-grid">
-
-    <div>
-
-        <h3>POPULAR TRAINS</h3>
-
-        <div class="train-card">
-
-            <span class="number">12951</span>
-
-            <div>
-
-                <strong>Mumbai Rajdhani Express</strong>
-
-                <p>Mumbai Central → New Delhi</p>
-
-            </div>
-
-        </div>
-
-        <div class="train-card">
-
-            <span class="number">12295</span>
-
-            <div>
-
-                <strong>Bengaluru Duronto Express</strong>
-
-                <p>Bengaluru → Hazrat Nizamuddin</p>
-
-            </div>
-
-        </div>
-
-        <div class="train-card">
-
-            <span class="number">12049</span>
-
-            <div>
-
-                <strong>Gatimaan Express</strong>
-
-                <p>Hazrat Nizamuddin → Jhansi</p>
-
-            </div>
-
-        </div>
-
-        <div class="train-card">
-
-            <span class="number">12627</span>
-
-            <div>
-
-                <strong>Karnataka Sampark Kranti</strong>
-
-                <p>Bengaluru → New Delhi</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div>
-
-        <h3>LATEST REVISIONS</h3>
-
-        <div class="update-card">
-
-            <strong>Mumbai Rajdhani Express</strong>
-
-            <p>Departure timing updated.</p>
-
-        </div>
-
-        <div class="update-card">
-
-            <strong>Gatimaan Express</strong>
-
-            <p>Schedule revised.</p>
-
-        </div>
-
-        <div class="update-card">
-
-            <strong>Bengaluru Duronto</strong>
-
-            <p>Coach composition updated.</p>
-
-        </div>
-
-        <div class="update-card">
-
-            <strong>Karnataka Sampark Kranti</strong>
-
-            <p>Station halt revised.</p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<section class="stats">
-
-    <div>
-
-        <h4>Premium Trains</h4>
-
-        <p>100+</p>
-
-    </div>
-
-    <div>
-
-        <h4>Stations</h4>
-
-        <p>500+</p>
-
-    </div>
-
-    <div>
-
-        <h4>Coverage</h4>
-
-        <p>Indian Railways</p>
-
-    </div>
-
-    <div>
-
-        <h4>Updated</h4>
-
-        <p>June 2026</p>
-
-    </div>
-
-</section>
+<div class="container">
+
+<div class="content">
+
+<div>
+
+<div class="section-title">
+POPULAR TRAINS
+</div>
+
+<div class="train-row">
+<div class="train-number">12951</div>
+<div class="train-details">
+Mumbai Rajdhani Express<br>
+Mumbai Central → New Delhi
+</div>
+</div>
+
+<div class="train-row">
+<div class="train-number">12295</div>
+<div class="train-details">
+Bengaluru Duronto<br>
+Bengaluru → Hazrat Nizamuddin
+</div>
+</div>
+
+<div class="train-row">
+<div class="train-number">12049</div>
+<div class="train-details">
+Gatimaan Express<br>
+Hazrat Nizamuddin → Jhansi
+</div>
+</div>
+
+</div>
+
+<div>
+
+<div class="section-title">
+LATEST REVISIONS
+</div>
+
+<div class="train-row">
+<div class="train-details">
+Mumbai Rajdhani Express<br>
+Departure timing updated
+</div>
+</div>
+
+<div class="train-row">
+<div class="train-details">
+Gatimaan Express<br>
+Schedule revised
+</div>
+</div>
+
+<div class="train-row">
+<div class="train-details">
+Bengaluru Duronto<br>
+Coach composition updated
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 <footer>
-
-    <p>
-
-        eTrainInfo is an independent railway reference website.
-
-    </p>
-
-    <p>
-
-        Please verify train timings before travel.
-
-    </p>
-
-    <p>
-
-        © 2026 eTrainInfo.com
-
-    </p>
-
+eRailInfo © 2026
 </footer>
 
 </body>
-
 </html>
