@@ -21,6 +21,7 @@ body {
   background: var(--paper);
   color: var(--text);
   font-family: 'Inter', sans-serif;
+  font-weight: 400;
   line-height: 1.6;
 }
 
@@ -54,7 +55,14 @@ header {
 /* NAVIGATION */
 .nav-menu { display: flex; gap: 50px; list-style: none; }
 .nav-menu li { position: relative; }
-.nav-menu a { text-decoration: none; color: #222; font-size: 13px; letter-spacing: 1px; }
+.nav-menu a {
+  text-decoration: none;
+  color: #222;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-family: 'Inter', sans-serif;
+}
 
 .dropdown-menu {
   display: none;
@@ -70,12 +78,69 @@ header {
   box-shadow: 0 4px 12px rgba(0,0,0,.05);
 }
 
-.dropdown-menu li a { display: block; padding: 10px 15px; }
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
 .dropdown-menu li a:hover { background: var(--paper-dark); }
 .dropdown:hover .dropdown-menu { display: block; }
 
+/* CAPSULE BROWSE BAR — just below header */
+.browse-bar {
+  background: var(--paper-dark);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+
+.browse-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.browse-bar-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
+.capsule {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+  text-decoration: none;
+  background: white;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.capsule:hover {
+  background: var(--paper);
+  border-color: #b0a898;
+}
+
+.capsule.active {
+  background: #2c2c2c;
+  color: white;
+  border-color: #2c2c2c;
+}
+
 /* HERO */
-.hero { text-align: center; padding: 70px 0 40px; }
+.hero { text-align: center; padding: 60px 0 40px; }
 .hero h1 { font-family: 'Inter', sans-serif; font-size: 78px; font-weight: 700; }
 .hero p { color: #666; margin-top: 10px; margin-bottom: 35px; }
 
@@ -88,6 +153,7 @@ header {
   background: white;
   outline: none;
   font-family: 'Inter', sans-serif;
+  font-size: 14px;
 }
 .search-box button {
   width: 120px;
@@ -97,42 +163,11 @@ header {
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
+  font-weight: 700;
   letter-spacing: 1px;
 }
 .search-box button:hover { background: var(--paper-dark); }
 .example { margin-top: 10px; font-size: 12px; color: #888; }
-
-/* BROWSE TRAINS BUBBLES */
-.browse-section { margin-top: 50px; }
-.browse-section h3 { font-weight: 400; font-size: 13px; margin-bottom: 20px; }
-
-.browse-trains {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px;
-}
-
-.browse-trains a {
-  width: 82px;
-  height: 82px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 10.5px;
-  line-height: 1.25;
-  padding: 8px;
-  box-sizing: border-box;
-  text-decoration: none;
-  color: #333;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.browse-trains a:hover { background: var(--paper-dark); }
 
 /* CONTENT */
 .content {
@@ -147,6 +182,7 @@ header {
   padding-bottom: 10px;
   margin-bottom: 15px;
   font-size: 12px;
+  font-weight: 700;
   letter-spacing: 1px;
 }
 
@@ -184,17 +220,19 @@ footer {
   .content { grid-template-columns: 1fr; }
   .search-box { flex-direction: column; }
   .search-box button { width: 100%; height: 50px; border-left: 1px solid var(--border); border-top: none; }
+  .browse-bar-inner { flex-wrap: wrap; }
 }
 
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
 <div class="container">
   <div class="topbar">
     <div>
-      <a href="#" class="logo">eRailInfo</a>
+      <a href="index.html" class="logo">eRailInfo</a>
       <div class="tagline">Indian Railway Information</div>
     </div>
     <ul class="nav-menu">
@@ -231,41 +269,41 @@ footer {
 </div>
 </header>
 
+<!-- CAPSULE BROWSE BAR -->
+<div class="browse-bar">
+  <div class="container">
+    <div class="browse-bar-inner">
+      <span class="browse-bar-label">Browse</span>
+      <div id="capsuleBar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
 <section class="hero">
   <h1>Search</h1>
   <p>Routes. Schedules. Stations.</p>
-
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Search train number or name">
     <button onclick="handleSearch()">Search</button>
   </div>
   <div class="example">Example: 12951 Mumbai Rajdhani</div>
-
-  <div class="browse-section">
-    <h3>Browse Trains</h3>
-    <div class="browse-trains" id="browseTrains">
-      <!-- Rendered by JS from trainCategories array -->
-    </div>
-  </div>
 </section>
 
+<!-- CONTENT -->
 <div class="container">
   <div class="content">
 
     <div>
-      <div class="section-title">POPULAR TRAINS</div>
-      <div id="popularTrains">
-        <!-- Rendered by JS from trains array -->
-      </div>
+      <div class="section-title" id="popularTrainsLabel">POPULAR TRAINS</div>
+      <div id="popularTrains"></div>
     </div>
 
     <div>
-  <div class="section-title">LATEST REVISIONS</div>
-  <div id="latestRevisions">
-    <!-- Rendered by JS -->
-  </div>
-  <a href="revision-history.html" style="display:inline-block;margin-top:12px;font-size:12px;letter-spacing:1px;color:#888;text-decoration:none;border-bottom:1px solid #d7cfbf;">VIEW ALL REVISIONS →</a>
-</div>
+      <div class="section-title">LATEST REVISIONS</div>
+      <div id="latestRevisions"></div>
+      <a href="revision-history.html" style="display:inline-block;margin-top:12px;font-size:12px;letter-spacing:1px;color:#888;text-decoration:none;border-bottom:1px solid #d7cfbf;">VIEW ALL REVISIONS →</a>
+    </div>
 
   </div>
 </div>
@@ -275,17 +313,15 @@ footer {
 <script>
 
 // ─────────────────────────────────────────────
-// DATA — add your 13,500 trains here in this
-// array. Each object has: number, name, from, to
+// DATA — add your 13,500 trains here
 // ─────────────────────────────────────────────
-
 const trains = [
-  { number: "12951", name: "Mumbai Rajdhani Express",    from: "Mumbai Central",       to: "New Delhi",            category: "Rajdhani",   revised: true  },
-  { number: "12295", name: "Bengaluru Duronto",          from: "KSR Bengaluru",        to: "Hazrat Nizamuddin",    category: "Duronto",    revised: false },
-  { number: "12049", name: "Gatimaan Express",           from: "Hazrat Nizamuddin",    to: "Jhansi",               category: "Shatabdi",   revised: true  },
-  { number: "12002", name: "Bhopal Shatabdi",            from: "New Delhi",            to: "Habibganj",            category: "Shatabdi",   revised: false },
-  { number: "22439", name: "New Delhi–Bihar Sampark Kranti", from: "New Delhi",        to: "Rajgir",               category: "Sampark Kranti", revised: false },
-  { number: "20901", name: "Mumbai Vande Bharat",        from: "Mumbai Central",       to: "Gandhinagar Capital",  category: "Vande Bharat", revised: true },
+  { number: "12951", name: "Mumbai Rajdhani Express",       from: "Mumbai Central",    to: "New Delhi",           category: "Rajdhani",       revised: true  },
+  { number: "12295", name: "Bengaluru Duronto",             from: "KSR Bengaluru",     to: "Hazrat Nizamuddin",   category: "Duronto",        revised: false },
+  { number: "12049", name: "Gatimaan Express",              from: "Hazrat Nizamuddin", to: "Jhansi",              category: "Shatabdi",       revised: true  },
+  { number: "12002", name: "Bhopal Shatabdi",               from: "New Delhi",         to: "Habibganj",           category: "Shatabdi",       revised: false },
+  { number: "22439", name: "New Delhi–Bihar Sampark Kranti",from: "New Delhi",         to: "Rajgir",              category: "Sampark Kranti", revised: false },
+  { number: "20901", name: "Mumbai Vande Bharat",           from: "Mumbai Central",    to: "Gandhinagar Capital", category: "Vande Bharat",   revised: true  },
   // ← keep adding rows here
 ];
 
@@ -299,19 +335,29 @@ const trainCategories = [
 ];
 
 // ─────────────────────────────────────────────
-// RENDER BUBBLES
+// RENDER CAPSULES
 // ─────────────────────────────────────────────
-const browseContainer = document.getElementById('browseTrains');
+const capsuleBar = document.getElementById('capsuleBar');
+capsuleBar.style.display = 'flex';
+capsuleBar.style.flexWrap = 'wrap';
+capsuleBar.style.gap = '8px';
+
 trainCategories.forEach(cat => {
   const a = document.createElement('a');
-  a.href = '#';
+  a.className = 'capsule';
   a.textContent = cat;
-  a.onclick = (e) => { e.preventDefault(); filterByCategory(cat); };
-  browseContainer.appendChild(a);
+  a.href = '#';
+  a.onclick = (e) => {
+    e.preventDefault();
+    document.querySelectorAll('.capsule').forEach(c => c.classList.remove('active'));
+    a.classList.add('active');
+    filterByCategory(cat);
+  };
+  capsuleBar.appendChild(a);
 });
 
 // ─────────────────────────────────────────────
-// RENDER POPULAR TRAINS (first 5)
+// RENDER TRAIN ROWS
 // ─────────────────────────────────────────────
 function renderTrainRows(list, containerId, showNumber = true) {
   const container = document.getElementById(containerId);
@@ -340,7 +386,7 @@ renderTrainRows(trains.filter(t => t.revised).slice(0, 1), 'latestRevisions', fa
 function handleSearch() {
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
   const label = document.getElementById('popularTrainsLabel');
-  
+
   if (!q) {
     label.textContent = 'POPULAR TRAINS';
     renderTrainRows(trains.slice(0, 5), 'popularTrains');
@@ -356,8 +402,6 @@ function handleSearch() {
 
   label.textContent = `SEARCH RESULTS (${results.length})`;
   renderTrainRows(results, 'popularTrains');
-};
-  renderTrainRows(results, 'popularTrains');
 }
 
 document.getElementById('searchInput').addEventListener('keydown', e => {
@@ -365,10 +409,12 @@ document.getElementById('searchInput').addEventListener('keydown', e => {
 });
 
 // ─────────────────────────────────────────────
-// FILTER BY CATEGORY (bubble click)
+// FILTER BY CATEGORY
 // ─────────────────────────────────────────────
 function filterByCategory(cat) {
+  const label = document.getElementById('popularTrainsLabel');
   const results = trains.filter(t => t.category === cat);
+  label.textContent = `${cat.toUpperCase()} (${results.length})`;
   renderTrainRows(results.length ? results : trains, 'popularTrains');
 }
 
