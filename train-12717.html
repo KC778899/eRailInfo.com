@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Train — eRailInfo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+/* ── BACK LINK ── */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #555;
+  padding: 20px 0 0;
+}
+.back-link:hover { color: #222; }
+
+/* ── FEATURED CARD ── */
+.featured-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.train-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.train-header-left h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.train-header-left .meta {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.train-header-left .meta-label {
+  font-weight: 700;
+  color: #222;
+}
+
+/* ── TIMELINE ── */
+.journey-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 24px 0;
+  position: relative;
+}
+
+.journey-timeline::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 40px;
+  right: 40px;
+  height: 2px;
+  background: #ddd;
+  z-index: 0;
+}
+
+.journey-stop {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.journey-stop:first-child .stop-circle {
+  background: #2ecc71;
+}
+
+.journey-stop:last-child .stop-circle {
+  background: #e74c3c;
+}
+
+.stop-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #3498db;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--border);
+}
+
+.stop-time {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+}
+
+.stop-status {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.stop-station {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.journey-info {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--paper);
+  border-radius: 4px;
+}
+
+/* ── QUICK STATS ── */
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.stat-box {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── TAB NAVIGATION ── */
+.train-tabs {
+  border-bottom: 1px solid var(--border);
+  margin-top: 30px;
+  display: flex;
+  gap: 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 14px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -1px;
+}
+
+.tab-btn:hover { color: #222; }
+.tab-btn.active { color: #222; border-bottom-color: #222; }
+
+/* ── TAB CONTENT ── */
+.tab-content {
+  display: none;
+  padding: 30px 0;
+}
+
+.tab-content.active { display: block; }
+
+/* ── TIMETABLE ── */
+.timetable-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.tt-table {
+  border-collapse: collapse;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  max-width: 100%;
+  width: 100%;
+}
+
+.tt-table thead tr {
+  background: var(--paper-dark);
+  border-bottom: 2px solid var(--border);
+}
+
+.tt-table th {
+  text-align: center;
+  padding: 12px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.tt-table th:last-child { border-right: none; }
+
+.tt-table td {
+  padding: 11px 10px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  vertical-align: middle;
+  text-align: center;
+  font-size: 11px;
+}
+
+.tt-table td:last-child { border-right: none; }
+.tt-table tbody tr:last-child td { border-bottom: none; }
+.tt-table tbody tr:hover { background: #faf7ef; }
+
+.tt-station { text-align: left; font-weight: 700; }
+.tt-time { font-weight: 700; }
+.tt-code { font-weight: 700; font-size: 10px; color: var(--muted); }
+
+/* ── RETURN JOURNEY ── */
+.return-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.return-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.return-card p {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.return-btn {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #222;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: background 0.15s;
+}
+
+.return-btn:hover { background: #444; }
+
+/* ── REVISIONS TABLE ── */
+.revisions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  margin-top: 10px;
+}
+
+.revisions-table thead tr {
+  background: var(--paper-dark);
+  border-bottom: 2px solid var(--border);
+}
+
+.revisions-table th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-right: 1px solid var(--border);
+}
+
+.revisions-table th:last-child { border-right: none; }
+
+.revisions-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.revisions-table td:last-child { border-right: none; }
+.revisions-table tbody tr:last-child td { border-bottom: none; }
+.revisions-table tbody tr:hover { background: #faf7ef; }
+
+.rev-version { font-weight: 700; width: 120px; white-space: nowrap; }
+.rev-date { width: 140px; white-space: nowrap; }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .train-header { flex-direction: column; }
+  .quick-stats { grid-template-columns: 1fr 1fr; }
+  .tt-table { font-size: 10px; }
+  .tt-table th, .tt-table td { padding: 8px 6px; font-size: 9px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+<div class="container">
+  <div class="topbar">
+    <div>
+      <a href="index.html" class="logo">eRailInfo</a>
+      <div class="tagline">Indian Railway Information</div>
+    </div>
+    <ul class="nav-menu">
+      <li class="dropdown">
+        <a href="#">TRAINS &#9662;</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Rajdhani Express</a></li>
+          <li><a href="#">Shatabdi Express</a></li>
+          <li><a href="#">Vande Bharat</a></li>
+          <li><a href="#">Duronto Express</a></li>
+          <li><a href="#">Humsafar Express</a></li>
+          <li><a href="#">Garib Rath</a></li>
+          <li><a href="#">Mail / Express</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#">STATIONS &#9662;</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">A Stations</a></li>
+          <li><a href="#">B Stations</a></li>
+          <li><a href="#">C Stations</a></li>
+          <li><a href="#">D Stations</a></li>
+          <li><a href="#">E Stations</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#">UPDATES &#9662;</a>
+        <ul class="dropdown-menu">
+          <li><a href="revision-history.html">Revision History</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+</header>
+
+<!-- ═══ BROWSE BAR ═══ -->
+<div class="browse-bar">
+<div class="container">
+  <div class="browse-bar-inner">
+    <span class="browse-bar-label">Browse</span>
+    <div id="capsuleBar" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ TRAIN PAGE CONTENT ═══ -->
+<div class="container">
+  <a href="index.html" class="back-link">&#8592; BACK TO SEARCH</a>
+
+  <!-- ═══ FEATURED CARD ═══ -->
+  <div class="featured-card" id="featuredCard">
+    <!-- Filled by JS -->
+  </div>
+
+  <!-- ═══ TAB NAVIGATION ═══ -->
+  <div class="train-tabs">
+    <button class="tab-btn active" onclick="switchTab('info', this)">Info</button>
+    <button class="tab-btn" onclick="switchTab('timetable', this)">Timetable</button>
+    <button class="tab-btn" onclick="switchTab('return', this)">Return</button>
+    <button class="tab-btn" onclick="switchTab('revisions', this)">Revisions</button>
+  </div>
+
+  <!-- ═══ INFO TAB ═══ -->
+  <div class="tab-content active" id="tab-info">
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">Train Details</h3>
+    <div id="infoDetails"></div>
+  </div>
+
+  <!-- ═══ TIMETABLE TAB ═══ -->
+  <div class="tab-content" id="tab-timetable">
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">Complete Timetable</h3>
+    <div class="timetable-wrapper">
+      <table class="tt-table" id="fullTimetable"></table>
+    </div>
+  </div>
+
+  <!-- ═══ RETURN TAB ═══ -->
+  <div class="tab-content" id="tab-return">
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">Return Journey</h3>
+    <div id="returnContent"></div>
+  </div>
+
+  <!-- ═══ REVISIONS TAB ═══ -->
+  <div class="tab-content" id="tab-revisions">
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;">Revision History</h3>
+    <table class="revisions-table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Effective Date</th>
+          <th>Summary of Changes</th>
+        </tr>
+      </thead>
+      <tbody id="revisionsBody"></tbody>
+    </table>
+  </div>
+
+</div><!-- end container -->
+
+<!-- ═══ BOTTOM CAPSULES ═══ -->
+<div class="container">
+  <div class="bottom-capsules">
+    <div class="bottom-capsules-label">Pages</div>
+    <div class="bottom-capsules-row">
+      <a class="capsule" href="popular-trains.html">Popular Trains</a>
+      <a class="capsule" href="latest-revisions.html">Latest Revisions</a>
+      <a class="capsule" href="#">&#8212;</a>
+      <a class="capsule" href="#">&#8212;</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>eRailInfo &copy; 2026</footer>
+
+<script src="trains.js"></script>
+<script>
+
+// ── GET TRAIN NUMBER FROM FILENAME ──
+const filename = window.location.pathname.split('/').pop();
+const trainNumber = filename.replace('train-', '').replace('.html', '');
+const train = trains.find(t => t.number === trainNumber) || trains[0];
+const returnTrain = train.number === '12717' ? trains.find(t => t.number === '12718') : trains.find(t => t.number === '12717');
+
+// ── PAGE TITLE ──
+document.title = train.number + ' ' + train.name + ' — eRailInfo';
+
+// ── CAPSULE BAR ──
+const capsuleBar = document.getElementById('capsuleBar');
+trainCategories.forEach(cat => {
+  const s = cat.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
+  const a = document.createElement('a');
+  a.className = 'capsule' + (cat === train.category ? ' active' : '');
+  a.textContent = cat;
+  a.href = 'category-' + s + '.html';
+  capsuleBar.appendChild(a);
+});
+
+// ── BUILD FEATURED CARD ──
+const firstStop = train.timetable[0];
+const lastStop = train.timetable[train.timetable.length - 1];
+
+document.getElementById('featuredCard').innerHTML = `
+  <div class="train-header">
+    <div class="train-header-left">
+      <h2>${train.number} / ${train.name}</h2>
+      <div class="meta">
+        <span class="meta-label">Train Type:</span> ${train.type}<br>
+        <span class="meta-label">${train.from} → ${train.to}</span> ${returnTrain ? returnTrain.number : ''} Trains<br>
+        <span class="meta-label">Schedule:</span> ${train.runsOn}<br>
+        <span class="meta-label">Classes:</span> ${train.classes}
+      </div>
+    </div>
+  </div>
+
+  <div class="journey-timeline">
+    <div class="journey-stop">
+      <div class="stop-circle">⭐</div>
+      <div class="stop-time">${firstStop.departure}</div>
+      <div class="stop-status">Departure</div>
+      <div class="stop-station">${firstStop.code}</div>
+    </div>
+    <div class="journey-stop">
+      <div class="stop-circle">📍</div>
+      <div class="stop-time">${lastStop.arrival}</div>
+      <div class="stop-status">Arrival</div>
+      <div class="stop-station">${lastStop.code}</div>
+    </div>
+  </div>
+
+  <div class="journey-info">
+    ✓ Run Time ${calculateRunTime(firstStop.departure, lastStop.arrival)} hrs ${calculateStops()} mins | Show all Stops ▼
+  </div>
+
+  <div class="quick-stats">
+    <div class="stat-box">
+      <div class="stat-value">${train.distance || '—'}</div>
+      <div class="stat-label">Distance</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">${train.timetable.length - 1}</div>
+      <div class="stat-label">Stops</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">${train.avgSpeed || '—'}</div>
+      <div class="stat-label">Avg. Speed</div>
+    </div>
+  </div>
+`;
+
+// ── BUILD TIMETABLE ──
+const ttHead = document.createElement('thead');
+ttHead.innerHTML = `<tr>
+  <th>#</th>
+  <th>Station</th>
+  <th>Code</th>
+  <th>Arrival</th>
+  <th>Departure</th>
+  <th>Halt</th>
+  <th>Schedule</th>
+</tr>`;
+document.getElementById('fullTimetable').appendChild(ttHead);
+
+const ttBody = document.createElement('tbody');
+train.timetable.forEach(s => {
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${s.stop}</td>
+    <td class="tt-station">${s.station}</td>
+    <td class="tt-code">${s.code}</td>
+    <td class="tt-time">${s.arrival}</td>
+    <td class="tt-time">${s.departure}</td>
+    <td>${s.halt}</td>
+    <td style="font-size:10px;color:#666;">${s.schedule}</td>
+  `;
+  ttBody.appendChild(row);
+});
+document.getElementById('fullTimetable').appendChild(ttBody);
+
+// ── BUILD INFO TAB ──
+document.getElementById('infoDetails').innerHTML = `
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <div style="border:1px solid var(--border);padding:16px;border-radius:4px;">
+      <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Type</div>
+      <div style="font-size:14px;font-weight:700;">${train.type}</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:16px;border-radius:4px;">
+      <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Runs On</div>
+      <div style="font-size:14px;font-weight:700;">${train.runsOn}</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:16px;border-radius:4px;">
+      <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Zone</div>
+      <div style="font-size:13px;font-weight:700;">${train.zone || '—'}</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:16px;border-radius:4px;">
+      <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Classes</div>
+      <div style="font-size:14px;font-weight:700;">${train.classes}</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:16px;border-radius:4px;">
+      <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Rake Type</div>
+      <div style="font-size:14px;font-weight:700;">${train.rakeType}</div>
+    </div>
+    <div style="border:1px solid var(--border);padding:16px;border-radius:4px;">
+      <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:8px;">Pantry</div>
+      <div style="font-size:14px;font-weight:700;">${train.pantry ? '✓ Available' : '✗ Not Available'}</div>
+    </div>
+  </div>
+`;
+
+// ── BUILD RETURN TAB ──
+if (returnTrain) {
+  document.getElementById('returnContent').innerHTML = `
+    <div class="return-card">
+      <h3>${returnTrain.number} ${returnTrain.name}</h3>
+      <p>${returnTrain.from} → ${returnTrain.to}</p>
+      <a href="train-${returnTrain.number}.html" class="return-btn">View Return Journey</a>
+    </div>
+  `;
+}
+
+// ── BUILD REVISIONS TAB ──
+const revisionsBody = document.getElementById('revisionsBody');
+if (train.revisions && train.revisions.length) {
+  let v = train.revisions.length;
+  train.revisions.forEach(r => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td class="rev-version">v${v}</td>
+      <td class="rev-date">${r.date}</td>
+      <td>${r.summary}</td>
+    `;
+    revisionsBody.appendChild(row);
+    v--;
+  });
+}
+
+// ── TAB SWITCHING ──
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── HELPER FUNCTIONS ──
+function calculateRunTime(dep, arr) {
+  // Simple calculation (you'd want more robust logic)
+  const depHour = parseInt(dep.split(':')[0]);
+  const arrHour = parseInt(arr.split(':')[0]);
+  return Math.abs(arrHour - depHour);
+}
+
+function calculateStops() {
+  return (train.timetable.length - 2) * 20; // rough estimate
+}
+
+</script>
+</body>
+</html>
