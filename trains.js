@@ -1,4 +1,7 @@
-
+// ─────────────────────────────────────────────────────────────────
+// trains.js — SINGLE SOURCE OF TRUTH
+// Edit trains here and ALL pages update automatically.
+// ─────────────────────────────────────────────────────────────────
 const trains = [
   {
     number: "12717",
