@@ -86,7 +86,7 @@ const trains = [
       { code: "B5",     type: "AC Three Tier" },
       { code: "EOG",    type: "Generator Car" },
     ],
-    timetable: [
+  timetable: [
       { stop: 1, code: "BZA", station: "Vijayawada Junction (BZA)", arrival: "—", departure: "06:00 am", day: 1, halt: "—", schedule: "Origin" },
       { stop: 2, code: "NZD", station: "Nuzvid", arrival: "07:36 am", departure: "07:37 am", day: 1, halt: "1 min", schedule: "S M T W T F S" },
       { stop: 3, code: "ELR", station: "Eluru", arrival: "07:56 am", departure: "07:57 am", day: 1, halt: "1 min", schedule: "S M T W T F S" },
@@ -99,9 +99,11 @@ const trains = [
       { stop: 10, code: "TUNI", station: "Tuni Junction (TUNI)", arrival: "11:05 am", departure: "11:07 am", day: 1, halt: "2 min", schedule: "S M T W T F S" },
       { stop: 11, code: "AKP", station: "Anakpalle", arrival: "11:49 am", departure: "11:50 am", day: 1, halt: "1 min", schedule: "S M T W T F S" },
          ],
-      revisions: [
+  revisions: [
       {
         date: "18 Jun 2026",
         Summary: "Schedule reviewed."
       }
-]
+      ]
+  }
+];
