@@ -104,6 +104,4 @@ const trains = [
         date: "18 Jun 2026",
         Summary: "Schedule reviewed."
       }
-    ]
-  }
-];
+]
