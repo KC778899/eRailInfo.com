@@ -76,7 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
   filtered.forEach(t => {
     const row = document.createElement('div');
     row.className = 'train-row';
-    row.innerHTML = '<div class="train-number">' + t.number + '</div><div class="train-details">' + t.name + '<br>' + t.from + ' &rarr; ' + t.to + '</div>';
+    row.innerHTML =
+'<a href="train-' + t.number + '.html">' +
+'<div class="train-number">' + t.number + '</div>' +
+'<div class="train-details">' +
+t.name + '<br>' +
+t.from + ' → ' + t.to +
+'</div>' +
+'</a>';
     c.appendChild(row);
   });
 });
