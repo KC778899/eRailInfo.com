@@ -659,11 +659,23 @@ function switchTab(name, btn) {
 }
 
 // ── HELPER FUNCTIONS ──
-function calculateRunTime(dep, arr) {
-  // Simple calculation (you'd want more robust logic)
-  const depHour = parseInt(dep.split(':')[0]);
-  const arrHour = parseInt(arr.split(':')[0]);
-  return Math.abs(arrHour - depHour);
+function getRunTime() {
+  const dep = firstStop.departure;
+  const arr = lastStop.arrival;
+
+  function toMins(t) {
+    let [time, period] = t.split(' ');
+    let [h, m] = time.split(':').map(Number);
+    if (period === 'pm' && h !== 12) h += 12;
+    if (period === 'am' && h === 12) h = 0;
+    return h * 60 + m;
+  }
+
+  let diff = toMins(arr) - toMins(dep);
+  if (diff < 0) diff += 1440;
+  const hrs = Math.floor(diff / 60);
+  const mins = diff % 60;
+  return hrs + ' hrs ' + mins + ' mins';
 }
 
 function calculateStops() {
