@@ -97,15 +97,17 @@
 <script>
 
   function renderRows(list, containerId) {
-  const c = document.getElementById(containerId);
-  c.innerHTML = '';
-  if (!list.length) { c.innerHTML = '<p style="color:#888;font-size:14px;padding:15px 0">No trains found.</p>'; return; }
-  list.forEach(t => {
-    const row = document.createElement('div');
-    row.className = 'train-row';
-    row.innerHTML = '<div class="train-number">' + t.number + '</div><div class="train-details">' + t.name + '<br>' + t.from + ' &rarr; ' + t.to + '</div>';
-    c.appendChild(row);
-  });
+  // Generate TRAINS dropdown from same categories as capsules
+const trainsDropdown = document.getElementById('trainsDropdown');
+trainCategories.forEach(cat => {
+  const s = cat.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.textContent = cat;
+  a.href = 'category-' + s + '.html';
+  li.appendChild(a);
+  trainsDropdown.appendChild(li);
+});
 }
 
 function handleSearch() {
