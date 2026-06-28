@@ -15,8 +15,8 @@ const trains = [
     distance: "350 km",
     avgSpeed: "55 kmph",
     coaches: [
-      { code: "WAP-7",  type: "Electric Loco" },
-      { code: "EOG",    type: "Generator Car" },
+      { code: "WAP-7",  type: "" },
+      { code: "EOG",    type: "" },
       { code: "H1",     type: "" },
       { code: "A1",     type: "" },
       { code: "A2",     type: "" },
@@ -28,7 +28,7 @@ const trains = [
       { code: "B3",     type: "" },
       { code: "B4",     type: "" },
       { code: "B5",     type: "" },
-      { code: "EOG",    type: "Generator Car" },
+      { code: "EOG",    type: "" },
     ],
     timetable: [
       { stop: 1, code: "VSKP", station: "Visakhapatnam Junction (VSKP)", arrival: "—", departure: "12:55 pm", day: 1, halt: "—", schedule: "Origin" },
@@ -67,8 +67,8 @@ const trains = [
     distance: "350 km",
     avgSpeed: "55 kmph",
     coaches: [
-      { code: "WAP-7",  type: "Electric Loco" },
-      { code: "EOG",    type: "Generator Car" },
+      { code: "WAP-7",  type: "" },
+      { code: "EOG",    type: "" },
       { code: "H1",     type: "" },
       { code: "A1",     type: "" },
       { code: "A2",     type: "" },
@@ -80,7 +80,7 @@ const trains = [
       { code: "B3",     type: "" },
       { code: "B4",     type: "" },
       { code: "B5",     type: "" },
-      { code: "EOG",    type: "Generator Car" },
+      { code: "EOG",    type: "" },
     ],
     timetable: [
       { stop: 1, code: "BZA", station: "Vijayawada Junction (BZA)", arrival: "—", departure: "06:00 am", day: 1, halt: "—", schedule: "Origin" },
