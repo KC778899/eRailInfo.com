@@ -551,6 +551,13 @@ trainCategories.forEach(cat => {
 const firstStop = train.timetable[0];
 const lastStop = train.timetable[train.timetable.length - 1];
 
+// Pick 3 intermediate stops to show (evenly spaced)
+const stops = train.timetable;
+const total = stops.length;
+const mid1 = stops[Math.round(total * 0.25)];
+const mid2 = stops[Math.round(total * 0.5)];
+const mid3 = stops[Math.round(total * 0.75)];
+
 document.getElementById('featuredCard').innerHTML = `
   <div class="train-header">
     <div class="train-header-left">
@@ -565,57 +572,49 @@ document.getElementById('featuredCard').innerHTML = `
   </div>
 
   <div class="journey-timeline">
-    <div class="journey-stop">
-      <div class="stop-circle">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      </div>
-      <div class="stop-time">${firstStop.departure}</div>
-      <div class="stop-status">DEPARTURE</div>
-      <div class="stop-station">${firstStop.code}</div>
+
+    <div class="journey-endpoint">
+      <div class="ep-station">${firstStop.station.split('(')[0].trim()}</div>
+      <div class="ep-code">${firstStop.code}</div>
+      <div class="ep-time">${firstStop.departure}</div>
+      <div class="ep-label">Departure</div>
     </div>
 
     <div class="journey-middle">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5">
-        <rect x="2" y="7" width="20" height="13" rx="2"/>
-        <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
-        <line x1="12" y1="12" x2="12" y2="16"/>
-        <line x1="8" y1="12" x2="16" y2="12"/>
-      </svg>
+      <div class="journey-stop-mid">
+        <div class="mid-dot"></div>
+        <div class="mid-station">${mid1.station.split('(')[0].trim()}</div>
+        <div class="mid-code">${mid1.code}</div>
+        <div class="mid-time">${mid1.arrival}</div>
+      </div>
+      <div class="journey-stop-mid">
+        <div class="mid-dot"></div>
+        <div class="mid-station">${mid2.station.split('(')[0].trim()}</div>
+        <div class="mid-code">${mid2.code}</div>
+        <div class="mid-time">${mid2.arrival}</div>
+      </div>
+      <div class="journey-stop-mid">
+        <div class="mid-dot"></div>
+        <div class="mid-station">${mid3.station.split('(')[0].trim()}</div>
+        <div class="mid-code">${mid3.code}</div>
+        <div class="mid-time">${mid3.arrival}</div>
+      </div>
     </div>
 
-    <div class="journey-stop">
-      <div class="stop-circle">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      </div>
-      <div class="stop-time">${lastStop.arrival}</div>
-      <div class="stop-status">ARRIVAL</div>
-      <div class="stop-station">${lastStop.code}</div>
+    <div class="journey-endpoint" style="text-align:right;">
+      <div class="ep-station">${lastStop.station.split('(')[0].trim()}</div>
+      <div class="ep-code">${lastStop.code}</div>
+      <div class="ep-time">${lastStop.arrival}</div>
+      <div class="ep-label">Arrival</div>
     </div>
+
   </div>
 
   <div class="journey-info">
-    &#9200; Run Time ${getRunTime()} &nbsp;|&nbsp; Show all Stops &#9660;
-  </div>
-
-  <div class="quick-stats">
-    <div class="stat-box">
-      <div class="stat-value">${train.distance || '—'}</div>
-      <div class="stat-label">Distance</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value">${train.timetable.length - 1}</div>
-      <div class="stat-label">Stops</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value">${train.avgSpeed || '—'}</div>
-      <div class="stat-label">Avg. Speed</div>
-    </div>
+    <div class="journey-info-item">&#9200; Run Time: ${getRunTime()}</div>
+    <div class="journey-info-item">&#128205; Distance: ${train.distance || '—'}</div>
+    <div class="journey-info-item">&#128650; Total Stops: ${train.timetable.length - 2}</div>
+    <div class="journey-info-item">&#127939; Avg. Speed: ${train.avgSpeed || '—'}</div>
   </div>
 `;
 
