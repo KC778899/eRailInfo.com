@@ -609,6 +609,7 @@ trainCategories.forEach(cat => {
   const s = cat.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
   const a = document.createElement('a');
   a.className = 'capsule' + (cat === train.category ? ' active' : '');
+  a.setAttribute('data-cat', cat);
   a.textContent = cat;
   a.href = 'category-' + s + '.html';
   capsuleBar.appendChild(a);
