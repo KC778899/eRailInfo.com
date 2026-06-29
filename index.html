@@ -97,8 +97,14 @@
     <div style="background:white;border:1px solid var(--border);border-radius:4px;padding:28px;">
       <div style="font-size:15px;font-weight:700;margin-bottom:20px;color:#222;">Search Between Stations</div>
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-        <input type="text" id="fromStation" placeholder="From station"
-          style="flex:1;padding:14px;border:1px solid var(--border);background:var(--paper);outline:none;font-family:Inter,sans-serif;font-size:14px;border-radius:4px;">
+        <div style="flex:1;position:relative;">
+  <div style="flex:1;position:relative;">
+  <input type="text" id="toStation" placeholder="To station" autocomplete="off"
+    style="width:100%;padding:14px;border:1px solid var(--border);background:var(--paper);outline:none;font-family:Inter,sans-serif;font-size:14px;border-radius:4px;box-sizing:border-box;">
+  <div id="toDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1px solid var(--border);border-top:none;z-index:100;max-height:200px;overflow-y:auto;border-radius:0 0 4px 4px;box-shadow:0 4px 12px rgba(0,0,0,0.08);"></div>
+</div>
+  <div id="fromDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1px solid var(--border);border-top:none;z-index:100;max-height:200px;overflow-y:auto;border-radius:0 0 4px 4px;box-shadow:0 4px 12px rgba(0,0,0,0.08);"></div>
+</div>
         <button onclick="swapStations()"
           style="width:44px;height:48px;border:1px solid var(--border);background:white;border-radius:50%;cursor:pointer;font-size:18px;flex-shrink:0;">⇆</button>
         <input type="text" id="toStation" placeholder="To station"
@@ -223,6 +229,64 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('trainSearchInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') handleTrainSearch();
   });
+
+  // Build master station list from all timetables
+  const allStations = [];
+  trains.forEach(t => {
+    t.timetable.forEach(s => {
+      const key = s.code + '||' + s.station;
+      if (!allStations.find(x => x.code === s.code)) {
+        allStations.push({ code: s.code, station: s.station });
+      }
+    });
+  });
+
+  function buildDropdown(inputId, dropdownId) {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      dropdown.innerHTML = '';
+
+      if (!q) { dropdown.style.display = 'none'; return; }
+
+      const matches = allStations.filter(s =>
+        s.code.toLowerCase().includes(q) ||
+        s.station.toLowerCase().includes(q)
+      ).slice(0, 8);
+
+      if (!matches.length) { dropdown.style.display = 'none'; return; }
+
+      matches.forEach(s => {
+        const item = document.createElement('div');
+        item.style.cssText = 'padding:12px 14px;cursor:pointer;border-bottom:1px solid #f0ebe0;display:flex;gap:12px;align-items:center;';
+        item.innerHTML = `
+          <span style="font-size:12px;font-weight:700;color:#777;min-width:44px;">${s.code}</span>
+          <span style="font-size:13px;color:#222;">${s.station}</span>
+        `;
+        item.onmouseover = () => item.style.background = '#f5f1e8';
+        item.onmouseout = () => item.style.background = 'white';
+        item.onclick = () => {
+          input.value = s.code;
+          dropdown.style.display = 'none';
+        };
+        dropdown.appendChild(item);
+      });
+
+      dropdown.style.display = 'block';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  }
+
+  buildDropdown('fromStation', 'fromDropdown');
+  buildDropdown('toStation', 'toDropdown');
 });
 </script>
 
