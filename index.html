@@ -74,58 +74,150 @@
 </div>
 
 
-<section class="page-hero">
-  <h1>Search</h1>
-  <p>Routes. Schedules. Stations.</p>
-  <div class="search-box" style="display:flex;max-width:600px;margin:auto;">
-    <input type="text" id="searchInput" placeholder="Search train number or name"
-      style="flex:1;padding:14px;border:1px solid var(--border);background:white;outline:none;font-family:Inter,sans-serif;font-size:14px;">
-    <button onclick="handleSearch()"
-      style="width:120px;border:1px solid var(--border);border-left:none;background:white;cursor:pointer;font-family:Inter,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;">Search</button>
-  </div>
-  <div style="margin-top:10px;font-size:12px;color:#888;">Example: 12951 Mumbai Rajdhani</div>
-</section>
+<div class="container">
 
-<div class="container" style="margin-bottom:20px;">
-<!-- SEARCH RESULTS -->
-<div id="searchResults">
-  <div class="search-results-label" id="resultsLabel">SEARCH RESULTS (0)</div>
-  <div id="resultsList"></div>
-</div>
+  <div style="text-align:center;padding:60px 0 40px;">
+    <h1 style="font-size:64px;font-weight:700;color:#222;line-height:1.1;">Search Trains</h1>
+    <p style="font-size:15px;color:#666;margin-top:12px;">Find trains, routes, schedules and stations</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin-bottom:40px;">
+
+    <div style="background:white;border:1px solid var(--border);border-radius:4px;padding:28px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:20px;color:#222;">Search by Train Number or Name</div>
+      <input type="text" id="trainSearchInput" placeholder="Enter train number or name"
+        style="width:100%;padding:14px;border:1px solid var(--border);background:var(--paper);outline:none;font-family:Inter,sans-serif;font-size:14px;border-radius:4px;margin-bottom:10px;box-sizing:border-box;">
+      <button onclick="handleTrainSearch()"
+        style="width:100%;padding:14px;border:none;background:#222;color:white;font-family:Inter,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;border-radius:4px;">Search</button>
+      <div style="font-size:11px;color:#aaa;margin-top:8px;">Example: 12717 Ratnachal Express</div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;padding:0 20px;font-size:13px;font-weight:700;color:var(--muted);">OR</div>
+
+    <div style="background:white;border:1px solid var(--border);border-radius:4px;padding:28px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:20px;color:#222;">Search Between Stations</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+        <input type="text" id="fromStation" placeholder="From station"
+          style="flex:1;padding:14px;border:1px solid var(--border);background:var(--paper);outline:none;font-family:Inter,sans-serif;font-size:14px;border-radius:4px;">
+        <button onclick="swapStations()"
+          style="width:44px;height:48px;border:1px solid var(--border);background:white;border-radius:50%;cursor:pointer;font-size:18px;flex-shrink:0;">⇆</button>
+        <input type="text" id="toStation" placeholder="To station"
+          style="flex:1;padding:14px;border:1px solid var(--border);background:var(--paper);outline:none;font-family:Inter,sans-serif;font-size:14px;border-radius:4px;">
+      </div>
+      <button onclick="handleStationSearch()"
+        style="width:100%;padding:14px;border:none;background:#222;color:white;font-family:Inter,sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;border-radius:4px;">Search</button>
+      <div style="font-size:11px;color:#aaa;margin-top:8px;">Example: Visakhapatnam to Vijayawada</div>
+    </div>
+
+  </div>
+
+  <div id="searchResults" style="display:none;margin-bottom:30px;">
+    <div id="resultsLabel" style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:10px;"></div>
+    <div id="resultsList"></div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Popular Stations</div>
+    <a href="#" style="font-size:12px;font-weight:700;color:#555;text-decoration:none;">View All Stations →</a>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:50px;">
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">NDLS</div><div style="font-size:13px;font-weight:700;">New Delhi</div></a>
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">BCT</div><div style="font-size:13px;font-weight:700;">Mumbai Central</div></a>
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">HWH</div><div style="font-size:13px;font-weight:700;">Howrah Junction</div></a>
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">SBC</div><div style="font-size:13px;font-weight:700;">Bengaluru City</div></a>
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">MAS</div><div style="font-size:13px;font-weight:700;">Chennai Central</div></a>
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">PUNE</div><div style="font-size:13px;font-weight:700;">Pune Junction</div></a>
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">HYB</div><div style="font-size:13px;font-weight:700;">Hyderabad</div></a>
+    <a href="#" style="border:1px solid var(--border);background:white;border-radius:4px;padding:14px 12px;text-decoration:none;color:inherit;display:block;"><div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">VSKP</div><div style="font-size:13px;font-weight:700;">Visakhapatnam</div></a>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:60px;background:var(--paper-dark);">
+    <div style="padding:28px 24px;border-right:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;">
+      <div style="font-size:28px;">🕐</div>
+      <div><div style="font-size:14px;font-weight:700;color:#222;margin-bottom:6px;">Live Schedules</div><div style="font-size:12px;color:#666;line-height:1.5;">Accurate train timings and updates</div></div>
+    </div>
+    <div style="padding:28px 24px;border-right:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;">
+      <div style="font-size:28px;">🗺</div>
+      <div><div style="font-size:14px;font-weight:700;color:#222;margin-bottom:6px;">Route Information</div><div style="font-size:12px;color:#666;line-height:1.5;">Check routes, halts and distances</div></div>
+    </div>
+    <div style="padding:28px 24px;border-right:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;">
+      <div style="font-size:28px;">🪑</div>
+      <div><div style="font-size:14px;font-weight:700;color:#222;margin-bottom:6px;">Coach &amp; Seat Info</div><div style="font-size:12px;color:#666;line-height:1.5;">Check coach position and availability</div></div>
+    </div>
+    <div style="padding:28px 24px;display:flex;gap:16px;align-items:flex-start;">
+      <div style="font-size:28px;">🔔</div>
+      <div><div style="font-size:14px;font-weight:700;color:#222;margin-bottom:6px;">Timely Updates</div><div style="font-size:12px;color:#666;line-height:1.5;">Get latest railway announcements</div></div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-
-  function renderRows(list, containerId) {
-  // Generate TRAINS dropdown from same categories as capsules
-const trainsDropdown = document.getElementById('trainsDropdown');
-trainCategories.forEach(cat => {
-  const s = cat.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  a.textContent = cat;
-  a.href = 'category-' + s + '.html';
-  li.appendChild(a);
-  trainsDropdown.appendChild(li);
-});
-}
-
-function handleSearch() {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-  const resultsBox = document.getElementById('searchResults');
-  const label = document.getElementById('searchLabel');
-  if (!q) { resultsBox.style.display = 'none'; return; }
+function handleTrainSearch() {
+  const q = document.getElementById('trainSearchInput').value.trim().toLowerCase();
+  if (!q) { document.getElementById('searchResults').style.display = 'none'; return; }
   const results = trains.filter(t =>
     t.number.includes(q) || t.name.toLowerCase().includes(q) ||
     t.from.toLowerCase().includes(q) || t.to.toLowerCase().includes(q)
   );
-  label.textContent = 'SEARCH RESULTS (' + results.length + ')';
-  renderRows(results, 'searchList');
-  resultsBox.style.display = 'block';
+  showResults(results, 'SEARCH RESULTS (' + results.length + ')');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') handleSearch(); });
+function handleStationSearch() {
+  const from = document.getElementById('fromStation').value.trim().toLowerCase();
+  const to = document.getElementById('toStation').value.trim().toLowerCase();
+  if (!from && !to) return;
+  const results = trains.filter(t =>
+    t.from.toLowerCase().includes(from) && t.to.toLowerCase().includes(to)
+  );
+  showResults(results, 'TRAINS FOUND (' + results.length + ')');
+}
+
+function swapStations() {
+  const f = document.getElementById('fromStation');
+  const t = document.getElementById('toStation');
+  const temp = f.value; f.value = t.value; t.value = temp;
+}
+
+function filterByCategory(cat) {
+  const results = trains.filter(t => t.category === cat);
+  showResults(results, cat.toUpperCase() + ' (' + results.length + ')');
+  document.getElementById('searchResults').scrollIntoView({ behavior: 'smooth' });
+}
+
+function showResults(results, label) {
+  document.getElementById('resultsLabel').textContent = label;
+  const list = document.getElementById('resultsList');
+  list.innerHTML = '';
+  if (!results.length) {
+    list.innerHTML = '<div style="text-align:center;padding:40px;color:#888;background:white;border:1px solid var(--border);border-radius:4px;">No trains found.</div>';
+  } else {
+    results.forEach(t => {
+      const a = document.createElement('a');
+      a.href = 'train-' + t.number + '.html';
+      a.style.cssText = 'display:flex;align-items:center;gap:16px;border:1px solid var(--border);background:white;border-radius:4px;padding:16px 20px;margin-bottom:10px;text-decoration:none;color:inherit;';
+      a.innerHTML = `
+        <div style="font-size:32px;font-weight:700;color:#222;min-width:80px;">${t.number}</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:700;color:#222;">${t.name}</div>
+          <div style="font-size:12px;color:#666;margin-top:3px;">${t.from} → ${t.to}</div>
+          <div style="font-size:11px;color:#777;margin-top:3px;">${t.type} · ${t.runsOn}</div>
+        </div>
+        <div style="font-size:18px;color:#ccc;">›</div>
+      `;
+      a.onmouseover = () => a.style.background = '#ebe5d8';
+      a.onmouseout = () => a.style.background = 'white';
+      list.appendChild(a);
+    });
+  }
+  document.getElementById('searchResults').style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('trainSearchInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleTrainSearch();
+  });
 });
 </script>
 
