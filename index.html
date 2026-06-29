@@ -148,27 +148,43 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 const capsuleBar = document.getElementById('capsuleBar');
 let a;
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "AC Express"; a.href = "category-ac-express.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "AC Superfast"; a.href = "category-ac-superfast.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Amrit Bharat"; a.href = "category-amrit-bharat.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Antyodaya"; a.href = "category-antyodaya.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Double Decker"; a.href = "category-double-decker.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Duronto"; a.href = "category-duronto.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Garib Rath"; a.href = "category-garib-rath.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Humsafar"; a.href = "category-humsafar.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Jan Shatabdi"; a.href = "category-jan-shatabdi.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Namo Bharat"; a.href = "category-namo-bharat.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Rajdhani"; a.href = "category-rajdhani.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Sampark Kranti"; a.href = "category-sampark-kranti.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Shatabdi"; a.href = "category-shatabdi.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Suvidha"; a.href = "category-suvidha.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Tejas"; a.href = "category-tejas.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Toy Train"; a.href = "category-toy-train.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Uday"; a.href = "category-uday.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Vande Bharat"; a.href = "category-vande-bharat.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Vande Bharat Sleeper"; a.href = "category-vande-bharat-sleeper.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Mail/Express"; a.href = "category-mail-express.html"; capsuleBar.appendChild(a);
-  a = document.createElement("a"); a.className = "capsule ".trim(); a.textContent = "Superfast"; a.href = "category-superfast.html"; capsuleBar.appendChild(a);
+ const categoryColors = {
+  "AC Express": "#2c2c2c",
+  "AC Superfast": "#2c2c2c",
+  "Amrit Bharat": "#F59827",
+  "Antyodaya": "#616161",
+  "Double Decker": "#616161",
+  "Duronto": "#27F549",
+  "Garib Rath": "#943861",
+  "Humsafar": "#27D3F5",
+  "Jan Shatabdi": "#2798F5",
+  "Namo Bharat": "#946B38",
+  "Rajdhani": "#F54927",
+  "Sampark Kranti": "#8F9438",
+  "Shatabdi": "#2731F5",
+  "Suvidha": "#9827F5",
+  "Tejas": "#F5EB27",
+  "Toy Train": "#616161",
+  "Uday": "#F5F527",
+  "Vande Bharat": "#8000FF",
+  "Vande Bharat Sleeper": "#FF0080",
+  "Mail/Express": "#877D39",
+  "Superfast": "#F52727"
+};
+
+trainCategories.forEach(cat => {
+  const s = cat.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
+  a = document.createElement("a");
+  a.className = "capsule";
+  a.setAttribute("data-cat", cat);
+  a.textContent = cat;
+  a.href = "category-" + s + ".html";
+  a.onclick = (e) => {
+    e.preventDefault();
+    filterByCategory(cat);
+  };
+  capsuleBar.appendChild(a);
+});
 
 </script>
 </body>
