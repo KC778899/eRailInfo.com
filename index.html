@@ -174,12 +174,18 @@ function handleTrainSearch() {
 function handleStationSearch() {
   const from = document.getElementById('fromStation').value.trim().toLowerCase();
   const to = document.getElementById('toStation').value.trim().toLowerCase();
-  if (!from && !to) return;
+  if (!from || !to) {
+    alert('Please enter both From and To stations');
+    return;
+  }
 
   const results = trains.filter(t => {
-    const stops = t.timetable.map(s => s.station.toLowerCase() + ' ' + s.code.toLowerCase());
-    const fromIndex = stops.findIndex(s => s.includes(from));
-    const toIndex = stops.findIndex(s => s.includes(to));
+    const fromIndex = t.timetable.findIndex(s =>
+      s.code.toLowerCase() === from || s.station.toLowerCase().includes(from)
+    );
+    const toIndex = t.timetable.findIndex(s =>
+      s.code.toLowerCase() === to || s.station.toLowerCase().includes(to)
+    );
     return fromIndex !== -1 && toIndex !== -1 && fromIndex < toIndex;
   });
 
