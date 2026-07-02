@@ -35,8 +35,7 @@ header { padding: 40px 0 20px; border-bottom: 1px solid var(--border); }
 .browse-bar { background: var(--paper-dark); border-bottom: 1px solid var(--border); padding: 14px 0; }
 .browse-bar-inner { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .browse-bar-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-right: 6px; white-space: nowrap; }
-.capsule { display: inline-flex; align-items: center; padding: 5px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: 12px; font-weight: 400; color: #333; text-decoration: none; background: white; cursor: pointer; transition: background 0.15s, border-color 0.15s; white-space: nowrap; }
-.capsule:hover { background: var(--paper); border-color: #b0a898; }
+.capsule { display: inline-flex; align-items: center; padding: 6px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 12px; font-weight: 400; color: #333; text-decoration: none; background: white; cursor: pointer; transition: background 0.15s, border-color 0.15s; white-space: nowrap; }.capsule:hover { background: var(--paper); border-color: #b0a898; }
 .capsule.active { background: #2c2c2c; color: white; border-color: #2c2c2c; }
 
 .page-hero { text-align: center; padding: 60px 0 40px; }
@@ -86,6 +85,17 @@ body.dark .tagline { color: #777; }
 body.dark .search-card-bg {
   background: #242424 !important;
   border-color: #383838 !important;
+  color: #e8e8e8 !important;
+}
+
+body.dark .search-card-bg div,
+body.dark .search-card-bg button {
+  color: inherit;
+}
+
+body.dark .search-card-bg button[onclick] {
+  background: #444 !important;
+  color: white !important;
 }
 
 /* Dark — station cards */
