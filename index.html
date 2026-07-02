@@ -530,6 +530,7 @@ function swapStations() {
 function handleTrainSearch() {
   const q = document.getElementById('trainSearchInput').value.trim().toLowerCase();
   if (!q) { document.getElementById('searchResults').style.display = 'none'; return; }
+  document.getElementById('trainDropdown').style.display = 'none';
   const results = trains.filter(t =>
     t.number.includes(q) || t.name.toLowerCase().includes(q) ||
     t.from.toLowerCase().includes(q) || t.to.toLowerCase().includes(q)
@@ -678,7 +679,7 @@ trainInput.addEventListener('input', () => {
 
   if (!matches.length) { trainDropdown.style.display = 'none'; return; }
 
-  matches.forEach(t => {
+matches.forEach(t => {
     const item = document.createElement('div');
     item.className = 'suggestion-item';
     item.innerHTML = `
@@ -686,9 +687,8 @@ trainInput.addEventListener('input', () => {
       <span class="suggestion-name">${t.name} <span style="font-weight:400;color:#aaa;font-size:11px;">${t.from.split('(')[0].trim()} → ${t.to.split('(')[0].trim()}</span></span>
     `;
     item.onclick = () => {
-      trainInput.value = t.number + ' ' + t.name;
       trainDropdown.style.display = 'none';
-      handleTrainSearch();
+      window.location.href = 'train-' + t.number + '.html';
     };
     trainDropdown.appendChild(item);
   });
