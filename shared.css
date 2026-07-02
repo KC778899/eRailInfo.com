@@ -37,27 +37,7 @@ header { padding: 40px 0 20px; border-bottom: 1px solid var(--border); }
 .browse-bar-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; margin-right: 6px; white-space: nowrap; }
 .capsule { display: inline-flex; align-items: center; padding: 5px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: 12px; font-weight: 400; color: #333; text-decoration: none; background: white; cursor: pointer; transition: background 0.15s, border-color 0.15s; white-space: nowrap; }
 .capsule:hover { background: var(--paper); border-color: #b0a898; }
-.capsule.active[data-cat="AC Express"]           { background: #2c2c2c; border-color: #2c2c2c; color: white; }
-.capsule.active[data-cat="AC Superfast"]         { background: #2c2c2c; border-color: #2c2c2c; color: white; }
-.capsule.active[data-cat="Amrit Bharat"]         { background: #F59827; border-color: #F59827; color: white; }
-.capsule.active[data-cat="Antyodaya"]            { background: #616161; border-color: #616161; color: white; }
-.capsule.active[data-cat="Double Decker"]        { background: #616161; border-color: #616161; color: white; }
-.capsule.active[data-cat="Duronto"]              { background: #27F549; border-color: #27F549; color: #222; }
-.capsule.active[data-cat="Garib Rath"]           { background: #943861; border-color: #943861; color: white; }
-.capsule.active[data-cat="Humsafar"]             { background: #27D3F5; border-color: #27D3F5; color: #222; }
-.capsule.active[data-cat="Jan Shatabdi"]         { background: #2798F5; border-color: #2798F5; color: white; }
-.capsule.active[data-cat="Namo Bharat"]          { background: #946B38; border-color: #946B38; color: white; }
-.capsule.active[data-cat="Rajdhani"]             { background: #F54927; border-color: #F54927; color: white; }
-.capsule.active[data-cat="Sampark Kranti"]       { background: #8F9438; border-color: #8F9438; color: white; }
-.capsule.active[data-cat="Shatabdi"]             { background: #2731F5; border-color: #2731F5; color: white; }
-.capsule.active[data-cat="Suvidha"]              { background: #9827F5; border-color: #9827F5; color: white; }
-.capsule.active[data-cat="Tejas"]                { background: #F5EB27; border-color: #F5EB27; color: #222; }
-.capsule.active[data-cat="Toy Train"]            { background: #616161; border-color: #616161; color: white; }
-.capsule.active[data-cat="Uday"]                 { background: #F5F527; border-color: #F5F527; color: #222; }
-.capsule.active[data-cat="Vande Bharat"]         { background: #8000FF; border-color: #8000FF; color: white; }
-.capsule.active[data-cat="Vande Bharat Sleeper"] { background: #FF0080; border-color: #FF0080; color: white; }
-.capsule.active[data-cat="Mail/Express"]         { background: #877D39; border-color: #877D39; color: white; }
-.capsule.active[data-cat="Superfast"]            { background: #F52727; border-color: #F52727; color: white; }
+.capsule.active { background: #2c2c2c; color: white; border-color: #2c2c2c; }
 
 .page-hero { text-align: center; padding: 60px 0 40px; }
 .page-hero h1 { font-family: 'Inter', sans-serif; font-size: 64px; font-weight: 700; }
@@ -79,11 +59,12 @@ footer { padding: 30px 0; border-top: 1px solid var(--border); text-align: cente
   .nav-menu { flex-wrap: wrap; gap: 20px; }
   .page-hero h1 { font-size: 40px; }
 }
+
 /* ── DARK THEME ── */
 body.dark {
   --paper: #1a1a1a;
   --paper-dark: #242424;
-  --border: #333;
+  --border: #383838;
   --text: #e8e8e8;
   --muted: #999;
   background: #1a1a1a;
@@ -91,34 +72,108 @@ body.dark {
 }
 
 body.dark .logo { color: #e8e8e8; }
-body.dark header { border-bottom-color: #333; }
-body.dark .browse-bar { background: #242424; }
-body.dark .capsule { background: #2a2a2a; color: #e8e8e8; border-color: #444; }
-body.dark .capsule:hover { background: #333; }
-body.dark .dropdown-menu { background: #242424; border-color: #333; }
+body.dark header { border-bottom-color: #383838; background: #1a1a1a; }
+body.dark .browse-bar { background: #242424; border-bottom-color: #383838; }
+body.dark .capsule { background: #2a2a2a; color: #ccc; border-color: #444; }
+body.dark .capsule:hover { background: #333; border-color: #555; }
+body.dark .dropdown-menu { background: #242424; border-color: #383838; }
 body.dark .dropdown-menu li a { color: #e8e8e8; }
 body.dark .dropdown-menu li a:hover { background: #333; }
 body.dark .nav-menu a { color: #e8e8e8; }
+body.dark .tagline { color: #777; }
 
-/* Theme toggle button */
+/* Dark — search cards */
+body.dark .search-card-bg {
+  background: #242424 !important;
+  border-color: #383838 !important;
+}
+
+/* Dark — station cards */
+body.dark .station-card-bg {
+  background: #242424 !important;
+  border-color: #383838 !important;
+  color: #e8e8e8 !important;
+}
+
+/* Dark — features row */
+body.dark .features-bg {
+  background: #242424 !important;
+  border-color: #383838 !important;
+}
+body.dark .feature-item-bg {
+  border-color: #383838 !important;
+}
+body.dark .feature-title-text { color: #e8e8e8 !important; }
+body.dark .feature-desc-text { color: #aaa !important; }
+
+/* Dark — inputs */
+body.dark input[type="text"] {
+  background: #2a2a2a !important;
+  border-color: #444 !important;
+  color: #e8e8e8 !important;
+}
+body.dark input[type="text"]::placeholder { color: #666 !important; }
+body.dark input[type="text"]:focus { border-color: #666 !important; background: #333 !important; }
+
+/* Dark — search results */
+body.dark .result-card-bg {
+  background: #242424 !important;
+  border-color: #383838 !important;
+}
+body.dark .result-card-bg:hover { background: #2e2e2e !important; }
+
+/* Dark — bottom capsules */
+body.dark .bottom-capsules-row .capsule { background: #2a2a2a; color: #ccc; border-color: #444; }
+
+/* Dark — footer */
+body.dark footer { border-top-color: #383838; color: #666; }
+body.dark .footer-links a { color: #666; }
+
+/* Dark — no results */
+body.dark .no-results-bg { background: #242424 !important; border-color: #383838 !important; }
+
+/* Dark — dropdown suggestions */
+body.dark .station-suggestion { background: #242424 !important; border-color: #383838 !important; }
+body.dark .suggestion-item { border-bottom-color: #383838 !important; color: #e8e8e8 !important; }
+body.dark .suggestion-item:hover { background: #333 !important; }
+body.dark .suggestion-code { color: #aaa !important; }
+
+/* Dark — station input pill */
+body.dark .station-pill {
+  background: #2a2a2a !important;
+  border-color: #555 !important;
+  color: #e8e8e8 !important;
+}
+
+/* ── THEME TOGGLE BUTTON (rounded square, Android style) ── */
 .theme-toggle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
   background: var(--paper-dark);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 30px;
+  margin-left: 24px;
   flex-shrink: 0;
-  transition: background 0.2s;
+  transition: background 0.15s, border-color 0.15s;
 }
 
-.theme-toggle:hover { background: var(--border); }
+.theme-toggle:hover {
+  background: var(--border);
+}
 
 .theme-toggle svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  color: var(--text);
 }
+
+body.dark .theme-toggle {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark .theme-toggle svg { color: #e8e8e8; }
